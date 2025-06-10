@@ -1,0 +1,787 @@
+[
+    {
+        "id": "bbf86e89bb7b542d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3a7860e917c65b11",
+        "type": "function",
+        "z": "bbf86e89bb7b542d",
+        "name": "function 3",
+        "func": "//const dados = msg.payload.uplink_message.decoded_payload;\n//const lat = dados.lat;\n//const lon = dados.long;\n//const eco2 = dados.eco2;\n//const tvoc = dados.tvoc;\n\nconst lat = 38.756700;\nconst lon = -9.116600;\nconst eco2 = 600;\nconst tvoc = 100;\n\nlet randomInt = Math.floor(Math.random() * (100000 - 0 + 1))\n\nconst json = {\n  id: randomInt.toString(),      \n  type: \"info\",                   \n  lat: {\n    type: \"Number\",               \n    value: lat                      \n  },\n  lon: {\n    type: \"Number\",\n    value: lon\n  },\n  eco2: {\n    type: \"Number\",\n    value: eco2\n  },\n  tvoc: {\n    type: \"Number\",\n    value: tvoc\n  }\n};\n\nmsg.payload = json;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 400,
+        "wires": [
+            [
+                "888c7821d22d9ed0"
+            ]
+        ]
+    },
+    {
+        "id": "888c7821d22d9ed0",
+        "type": "http request",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "method": "POST",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://orion:1026/v2/entities",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 710,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c410269651fa1661",
+        "type": "inject",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 340,
+        "y": 400,
+        "wires": [
+            [
+                "3a7860e917c65b11"
+            ]
+        ]
+    },
+    {
+        "id": "ebcdb5175eb43ec3",
+        "type": "comment",
+        "z": "bbf86e89bb7b542d",
+        "name": "Create entity",
+        "info": "",
+        "x": 330,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "c0ba9425a69c6e55",
+        "type": "function",
+        "z": "bbf86e89bb7b542d",
+        "name": "function 4",
+        "func": "const updatedLat = 300;\nconst updatedEco2 = 360;\n\nconst updatedData = {\n  \"lat\": {\n    \"type\": \"Number\",\n    \"value\": updatedLat\n  },\n  \"eco2\": {\n    \"type\": \"Number\",\n    \"value\": updatedEco2\n  }\n};\n\nmsg.payload = updatedData;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 520,
+        "wires": [
+            [
+                "aae5e11d6bb074a2"
+            ]
+        ]
+    },
+    {
+        "id": "aae5e11d6bb074a2",
+        "type": "http request",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://orion:1026/v2/entities/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 710,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "72022719abb92d1b",
+        "type": "inject",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 340,
+        "y": 520,
+        "wires": [
+            [
+                "c0ba9425a69c6e55"
+            ]
+        ]
+    },
+    {
+        "id": "6cfd1320de131bc9",
+        "type": "comment",
+        "z": "bbf86e89bb7b542d",
+        "name": "Update entity",
+        "info": "",
+        "x": 330,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f906bb24b01ab3a2",
+        "type": "comment",
+        "z": "bbf86e89bb7b542d",
+        "name": "Create subscription",
+        "info": "",
+        "x": 350,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "85e8a4629d156cf2",
+        "type": "inject",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"description\":\"Get lat, lon, eco2, tvoc that were uptaded from all entities\",\"subject\":{\"entities\":[{\"idPattern\":\".*\"}],\"condition\":{\"attrs\":[\"lat\",\"lon\",\"eco2\",\"tvoc\"]}},\"notification\":{\"http\":{\"url\":\"http://node-red:1880/notification\"},\"attrs\":[\"lat\",\"lon\",\"eco2\",\"tvoc\"]}}",
+        "payloadType": "json",
+        "x": 330,
+        "y": 260,
+        "wires": [
+            [
+                "de80a7a3f19322fb"
+            ]
+        ]
+    },
+    {
+        "id": "de80a7a3f19322fb",
+        "type": "http request",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "method": "POST",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://orion:1026/v2/subscriptions",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 510,
+        "y": 260,
+        "wires": [
+            [
+                "2c35031853e5f3eb"
+            ]
+        ]
+    },
+    {
+        "id": "2c35031853e5f3eb",
+        "type": "debug",
+        "z": "bbf86e89bb7b542d",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "d92687fedba5272c",
+        "type": "mqtt in",
+        "z": "bbf86e89bb7b542d",
+        "name": "MQTT IN",
+        "topic": "v3/vtp@ttn/devices/vtp-device/up",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fcfcbda1c3dc8209",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 600,
+        "wires": [
+            [
+                "2c12e996e56b3eaa",
+                "6945fcb43a54f4b8"
+            ]
+        ]
+    },
+    {
+        "id": "2c12e996e56b3eaa",
+        "type": "debug",
+        "z": "bbf86e89bb7b542d",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "6945fcb43a54f4b8",
+        "type": "function",
+        "z": "bbf86e89bb7b542d",
+        "name": "Create/Update entity",
+        "func": "/*\nconst dados = msg.payload.uplink_message.decoded_payload;\nconst lat = dados.lat;\nconst lon = dados.long;\nconst eco2 = dados.eco2;\nconst tvoc = dados.tvoc;\n*/\n\nconst lat = 38.838400;\nconst lon = -9.100300;\nconst eco2 = 500;\nconst tvoc = 100;\n\nlet randomInt = Math.floor(Math.random() * (100000 - 0 + 1))\nlet randomIntStr = randomInt.toString();\n\nconst json = {\n    id: randomIntStr,\n    type: \"info\",\n    lat: {type: \"Number\",value: lat},\n    lon: {type: \"Number\",value: lon},\n    eco2: {type: \"Number\",value: eco2},\n    tvoc: {type: \"Number\",value: tvoc}\n};\n\nmsg.payload = json\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 600,
+        "wires": [
+            [
+                "5c5550ccbf835f5b"
+            ]
+        ]
+    },
+    {
+        "id": "5c5550ccbf835f5b",
+        "type": "http request",
+        "z": "bbf86e89bb7b542d",
+        "name": "Create/Update entity",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://orion:1026/v2/entities/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 800,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ee04bfbfdbafd6b4",
+        "type": "function",
+        "z": "bbf86e89bb7b542d",
+        "name": "Processing Data",
+        "func": "// const dados = msg.payload.uplink_message.decoded_payload;\n\nlet dados = msg.payload.data[0];\nconst lat = dados.lat.value;\nconst lon = dados.lon.value;\nconst eco2 = dados.eco2.value;\nconst tvoc = dados.tvoc.value;\n\nconst goodQuality = eco2 <= 800 && tvoc <= 200;\nconst quality = goodQuality ? \"Good\" : \"Bad\";\n\nlet locations = global.get('locations') || [];\n\nconst newPoint = {\n    id: Date.now(),\n    device: `Sensor TTGO`,\n    lat: lat.toFixed(4),\n    lon: lon.toFixed(4),\n    eco2: eco2,\n    tvoc: tvoc,\n    quality: quality,\n    timestamp: new Date().toLocaleTimeString()\n};\n\nlocations.push(newPoint);\n\nglobal.set('locations', locations);\n\nreturn [\n    // Output 1: table\n    {\n        payload: locations.map(loc => ({\n            \"localização (lat, long)\": `${loc.lat}, ${loc.lon}`,\n            \"eCO2 (ppm)\": loc.eco2,\n            \"TVOC (ppb)\": loc.tvoc,\n        }))\n    },\n    // Output 2: gauge\n    {\n        payload: Math.round(\n            (locations.filter(l => l.quality === \"Good\").length / locations.length) * 100\n        )\n    },\n    // Output 3: map\n    {\n        payload: {\n            lat: parseFloat(newPoint.lat),\n            lon: parseFloat(newPoint.lon),\n            name: `${newPoint.device}_${newPoint.id}`,\n            icon: \"circle\",\n            iconColor: newPoint.quality === \"Good\" ? \"green\" : \"red\",\n            popup: `Latitude: ${newPoint.lat} <br>Longitude: ${newPoint.lon} \n            <br><b>Environmental Data:</b><br>eCO2: ${newPoint.eco2} ppm<br>\n            TVOC: ${newPoint.tvoc} ppb<br>Quality of Air: ${newPoint.quality}`,\n            layer: \"locations\"\n        }\n    }\n];\n",
+        "outputs": 3,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 780,
+        "wires": [
+            [
+                "8e6dcc28fbe3755e"
+            ],
+            [
+                "fce7a297fb81b5c0"
+            ],
+            [
+                "21ac6f2f81aff48f"
+            ]
+        ]
+    },
+    {
+        "id": "21ac6f2f81aff48f",
+        "type": "worldmap",
+        "z": "bbf86e89bb7b542d",
+        "name": "Worldmap",
+        "lat": "38.7236",
+        "lon": "-9.1517",
+        "zoom": "12",
+        "layer": "OSMC",
+        "cluster": "1",
+        "maxage": "600",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriO,EsriDG,NatGeo,UKOS,OpTop",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 1110,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "e7f9ddb5b5943f08",
+        "type": "ui_template",
+        "z": "bbf86e89bb7b542d",
+        "group": "group_map",
+        "name": "Map",
+        "order": 1,
+        "width": 10,
+        "height": 10,
+        "format": "<div style=\"width: 100%; height: 100%; min-height: 400px;\">\n    <iframe \n        src=\"/worldmap\" \n        width=\"100%\" \n        height=\"100%\" \n        frameborder=\"0\" \n        style=\"border: none; min-height: 400px;\">\n    </iframe>\n</div>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1130,
+        "y": 860,
+        "wires": [
+            [
+                "21ac6f2f81aff48f",
+                "b7f557a5a1e3d5f9"
+            ]
+        ]
+    },
+    {
+        "id": "fce7a297fb81b5c0",
+        "type": "ui_gauge",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "group": "group_chart",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Percentage of locations with good air quality",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ca3838",
+            "#fff700",
+            "#00b500"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1210,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "8e6dcc28fbe3755e",
+        "type": "ui_table",
+        "z": "bbf86e89bb7b542d",
+        "group": "group_table",
+        "name": "Table",
+        "order": 1,
+        "width": 10,
+        "height": 10,
+        "columns": [
+            {
+                "field": "localização (lat, long)",
+                "title": "Location (lat,long)",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "eCO2 (ppm)",
+                "title": "eCO2 (ppm)",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "TVOC (ppb)",
+                "title": "TVOC (ppb)",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 1090,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "91464c0bd26f949c",
+        "type": "http in",
+        "z": "bbf86e89bb7b542d",
+        "name": "Listen",
+        "url": "/notification",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 310,
+        "y": 780,
+        "wires": [
+            [
+                "9c8ccda0dcc2a6c6",
+                "aee94edda786c49e"
+            ]
+        ]
+    },
+    {
+        "id": "aee94edda786c49e",
+        "type": "http response",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 480,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "9c8ccda0dcc2a6c6",
+        "type": "function",
+        "z": "bbf86e89bb7b542d",
+        "name": "function 5",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 780,
+        "wires": [
+            [
+                "ee04bfbfdbafd6b4"
+            ]
+        ]
+    },
+    {
+        "id": "b7f557a5a1e3d5f9",
+        "type": "debug",
+        "z": "bbf86e89bb7b542d",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "fa77b937cb5fad5d",
+        "type": "inject",
+        "z": "bbf86e89bb7b542d",
+        "name": "Load",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 310,
+        "y": 940,
+        "wires": [
+            [
+                "4a3296f9a1323545"
+            ]
+        ]
+    },
+    {
+        "id": "4a3296f9a1323545",
+        "type": "http request",
+        "z": "bbf86e89bb7b542d",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://orion:1026/v2/entities/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 530,
+        "y": 940,
+        "wires": [
+            [
+                "da0c3fdfec292792"
+            ]
+        ]
+    },
+    {
+        "id": "da0c3fdfec292792",
+        "type": "function",
+        "z": "bbf86e89bb7b542d",
+        "name": "Show all entities",
+        "func": "// const dados = msg.payload.uplink_message.decoded_payload;\n\nlet dados = msg.payload || [];\nglobal.set('locations', []);\n\nif (Array.isArray(dados)) {\n    let locations = global.get('locations') || [];\n    let tableData = [];\n    let mapPoints = [];\n    let goodQualityCount = 0;\n\n    for (let i = 0; i < dados.length; i++) {\n        const lat = dados[i].lat.value;\n        const lon = dados[i].lon.value;\n        const eco2 = dados[i].eco2.value;\n        const tvoc = dados[i].tvoc.value;\n\n        const goodQuality = eco2 <= 800 && tvoc <= 200;\n        const quality = goodQuality ? \"Good\" : \"Bad\";\n\n        const newPoint = {\n            id: Date.now() + i,\n            device: `Sensor TTGO`,\n            lat: lat.toFixed(4),\n            lon: lon.toFixed(4),\n            eco2: eco2,\n            tvoc: tvoc,\n            quality: quality,\n            timestamp: new Date().toLocaleTimeString()\n        };\n\n        locations.push(newPoint);\n\n        tableData.push({\n            \"localização (lat, long)\": `${newPoint.lat}, ${newPoint.lon}`,\n            \"eCO2 (ppm)\": newPoint.eco2,\n            \"TVOC (ppb)\": newPoint.tvoc,\n        });\n\n        mapPoints.push({\n            lat: parseFloat(newPoint.lat),\n            lon: parseFloat(newPoint.lon),\n            name: `${newPoint.device}_${newPoint.id}`,\n            icon: \"circle\",\n            iconColor: newPoint.quality === \"Good\" ? \"green\" : \"red\",\n            popup: `Latitude: ${newPoint.lat} <br>Longitude: ${newPoint.lon} \n                    <br><b>Environmental Data:</b><br>eCO2: ${newPoint.eco2} ppm<br>\n                    TVOC: ${newPoint.tvoc} ppb<br>Quality of Air: ${newPoint.quality}`,\n            layer: \"locations\"\n        });\n\n        if (goodQuality) goodQualityCount++;\n        \n    }\n\n    global.set('locations', locations);\n\n    const qualityPercentage = Math.round((goodQualityCount / locations.length) * 100);\n\n    return [\n        // Output 1: table\n        {\n            payload: tableData\n        },\n        // Output 2: gauge\n        {\n            payload: qualityPercentage\n        },\n        // Output 3: map\n        {\n            payload: mapPoints\n        }\n    ];\n}\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 940,
+        "wires": [
+            [
+                "8e6dcc28fbe3755e"
+            ],
+            [
+                "fce7a297fb81b5c0"
+            ],
+            [
+                "21ac6f2f81aff48f"
+            ]
+        ]
+    },
+    {
+        "id": "546c933354a0298b",
+        "type": "ui_button",
+        "z": "bbf86e89bb7b542d",
+        "name": "Clean Data",
+        "group": "group_chart",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "label": "Clear data",
+        "tooltip": "Clean data",
+        "color": "",
+        "bgcolor": "#d9534f",
+        "className": "",
+        "icon": "delete",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 530,
+        "y": 680,
+        "wires": [
+            [
+                "5b80ce5949ec4ba7"
+            ]
+        ]
+    },
+    {
+        "id": "5b80ce5949ec4ba7",
+        "type": "function",
+        "z": "bbf86e89bb7b542d",
+        "name": "Function for clean actual data",
+        "func": "let locations = global.get('locations') || [];\n\nconst emptyTable = { payload: [] };\nconst emptyGauge = { payload: 0 };\n\nlet emptyMap = locations.map(l => ({\n    name: `${l.device}_${l.id}`,\n    deleted: true\n}));\n\nglobal.set('locations', []);\n\nreturn [emptyTable, emptyGauge, { payload: emptyMap }];\n",
+        "outputs": 3,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 680,
+        "wires": [
+            [
+                "8e6dcc28fbe3755e"
+            ],
+            [
+                "fce7a297fb81b5c0"
+            ],
+            [
+                "21ac6f2f81aff48f"
+            ]
+        ]
+    },
+    {
+        "id": "fcfcbda1c3dc8209",
+        "type": "mqtt-broker",
+        "name": "VTP_QualityOfAir",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "group_map",
+        "type": "ui_group",
+        "name": "Location",
+        "tab": "tab_main",
+        "order": 3,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "group_chart",
+        "type": "ui_group",
+        "name": "Statistics",
+        "tab": "tab_main",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "group_table",
+        "type": "ui_group",
+        "name": "Data",
+        "tab": "tab_main",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "tab_main",
+        "type": "ui_tab",
+        "name": "Quality Of Air In Lisbon Dashboard",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
