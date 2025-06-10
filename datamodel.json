@@ -1,0 +1,24 @@
+{
+  "id":"15630",
+  "type":"info",
+  "eco2":{
+    "type":"Number",
+    "value":600,
+    "metadata":{}
+  },
+  "lat":{
+    "type":"Number",
+    "value":38.7567,
+    "metadata":{}
+  },
+  "lon":{
+    "type":"Number",
+    "value":-9.1166,
+    "metadata":{}
+  },
+  "tvoc":{
+    "type":"Number",
+    "value":100,
+    "metadata":{}
+  }
+}
