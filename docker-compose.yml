@@ -1,0 +1,20 @@
+services:
+  mongo:
+    image: mongo:8.0  
+  orion:
+    image: telefonicaiot/fiware-orion:latest
+    links:
+      - mongo
+    ports:
+      - "10026:1026"
+    command: -dbURI mongodb://mongo
+    environment:
+      - TZ=Europe/Lisbon
+  node-red:
+    image: nodered/node-red:latest
+    links:
+      - orion
+    ports:
+      - "1880:1880"
+    environment:
+      - TZ=Europe/Lisbon
